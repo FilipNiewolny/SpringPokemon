@@ -3,6 +3,7 @@ package com.pokemon.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -21,9 +22,11 @@ public class JdbcConfig {
                 .setType(EmbeddedDatabaseType.H2)
                 .addScript("db/create-db.sql")
                 .addScript("db/insert-data.sql")
+                .addScript("db/create-poke.sql")
                 .build();
     }
 
+    @Primary
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);

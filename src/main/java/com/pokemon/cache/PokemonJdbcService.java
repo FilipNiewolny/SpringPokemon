@@ -1,16 +1,28 @@
 package com.pokemon.cache;
 
 import com.pokemon.dto.PokemonDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
-public class PokemonCache {
+public class PokemonJdbcService {
 
     public List<PokemonDto> pokemonDtoList;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    int id = 0;
+
+    public List<Map<String, Object>> getAllPokemon() {
+        return jdbcTemplate.queryForList("SELECT * FROM POKE ");
+    }
 
     @PostConstruct
     public void methodInit() {
@@ -22,10 +34,22 @@ public class PokemonCache {
     //// jdbcTemplate.execute("create table user (id int, name varchar)");
 
     //SIMPLE UPDATE
-//    public int addEmplyee(int id) {
-//        return jdbcTemplate.update(
-//                "INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?)", 5, "Bill", "Gates", "USA");
-//    }
+    public void addPokemon(PokemonDto pokemonDto) {
+        this.jdbcTemplate.update(
+                "INSERT INTO poke VALUES (?,?,?,?,?,?,?)",
+                id++,
+                pokemonDto.getName(),
+                pokemonDto.getWeight(),
+                pokemonDto.getSpeciesUrl(),
+                pokemonDto.getSpeciesName(),
+                pokemonDto.getStats().toString(),
+                pokemonDto.getAbilities().toString()
+
+
+        );
+
+
+    }
 
 
     //MAP PARAMETERS
@@ -54,6 +78,6 @@ public class PokemonCache {
 //            query, new Object[] { id }, new EmployeeRowMapper());
 
 
-    //https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/data-access.html#jdbc
+//    https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/data-access.html#jdbc
 }
 

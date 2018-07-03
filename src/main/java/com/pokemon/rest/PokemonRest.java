@@ -1,7 +1,7 @@
 package com.pokemon.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.pokemon.cache.PokemonCache;
+import com.pokemon.cache.PokemonJdbcService;
 import com.pokemon.dto.PokemonDto;
 import com.pokemon.service.PokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @RestController
@@ -21,13 +22,13 @@ public class PokemonRest {
 
     RestTemplate restTemplate;
     PokemonService pokemonService;
-    PokemonCache pokemonCache;
+    PokemonJdbcService pokemonCache;
 
     @Autowired
     JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public PokemonRest(PokemonService pokemonService, RestTemplate restTemplate, PokemonCache pokemonCache) {
+    public PokemonRest(PokemonService pokemonService, RestTemplate restTemplate, PokemonJdbcService pokemonCache) {
         this.pokemonService = pokemonService;
         this.restTemplate = restTemplate;
         this.pokemonCache = pokemonCache;
@@ -54,18 +55,18 @@ public class PokemonRest {
     }
 
     @PostMapping("/addPokemon")
-    public ResponseEntity<String> addPokemon(@RequestBody PokemonDto pokemonDto){
+    public ResponseEntity<String> addPokemon(@RequestBody PokemonDto pokemonDto) {
 
-        pokemonCache.pokemonDtoList.add(pokemonDto);
-
-        return ResponseEntity.ok("ok");
+        pokemonService.addToDb(pokemonDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping("/getPokemon")
-    public List<PokemonDto> showPokemon() {
+    public List<Map<String, Object>> showPokemon() {
 
-        return pokemonCache.pokemonDtoList;
+        return pokemonService.getAllPokemon();
     }
+
 
 
 
