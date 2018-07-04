@@ -10,16 +10,26 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PokemonDto {
+    private int id;
+
     private String name;
+
     private String weight;
     private String speciesUrl;
     private String speciesName;
-
     @JsonProperty("stats")
     private StatsDto[] stats;
 
     @JsonProperty("abilities")
     private AbilitiesDto[] abilities;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public StatsDto[] getStats() {
         return stats;

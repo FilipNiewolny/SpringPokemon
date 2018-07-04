@@ -48,6 +48,12 @@ public class PokemonServiceImpl implements PokemonService {
         return pokemonJdbcService.getAllPokemon();
     }
 
+    @Override
+    public PokemonDto getPokemonById(int id) throws IOException {
+
+        return pokemonJdbcService.getPokemonById(id);
+    }
+
 
 //    public PokemonDto returnParsedPokemon(String s) throws IOException {
 //        ObjectMapper mapper = new ObjectMapper();

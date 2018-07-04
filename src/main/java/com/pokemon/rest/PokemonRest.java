@@ -67,6 +67,10 @@ public class PokemonRest {
         return pokemonService.getAllPokemon();
     }
 
+    @RequestMapping(value = "/getPokemon/{id}" ,  method = RequestMethod.GET)
+    public PokemonDto getPokemonById(@PathVariable int id) throws IOException {
+        return pokemonService.getPokemonById(id);
+    }
 
 
 

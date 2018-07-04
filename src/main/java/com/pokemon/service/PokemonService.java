@@ -16,5 +16,7 @@ public interface PokemonService {
     void addToDb(PokemonDto pokemonDto);
 
     List<Map<String, Object>> getAllPokemon();
+
+    PokemonDto getPokemonById(int id) throws IOException;
 //    public PokemonDto returnParsedPokemon(String s) throws IOException;
 }
